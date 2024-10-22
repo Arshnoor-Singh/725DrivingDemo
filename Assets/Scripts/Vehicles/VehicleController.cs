@@ -38,16 +38,8 @@ public class VehicleController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 createdInput = new Vector3(0, 0, accelerationInput);
-        Vector3 adjustedInput = Vector3.Normalize(transform.forward + createdInput);
-
-
-
-        // Directional Fix:
-        // Delete created Input
-        // Vector3 adjustedInput = (transform.forward * -1) * accelerationInput;
-
-        float DotProduct = Vector3.Dot(currentVelocity.normalized, adjustedInput);
+        Vector3 combinedInput = (transform.forward * -1) * accelerationInput;
+        float DotProduct = Vector3.Dot(currentVelocity.normalized, combinedInput);
 
         if( DotProduct < 0 )
         {
@@ -90,7 +82,7 @@ public class VehicleController : MonoBehaviour
         {
             KeyPressed = "No Key Pressed";
         }
-        Debug.Log("Input = " + KeyPressed + " || Adjusted Input = " + adjustedInput + " ||| Velocity = " + currentVelocity.normalized + " ||| Dot Product = " +  DotProduct);
+        Debug.Log("Input = " + KeyPressed + " ||| Velocity = " + currentVelocity.normalized + " ||| Dot Product = " +  DotProduct);
         // Purely for debugging
 
 
