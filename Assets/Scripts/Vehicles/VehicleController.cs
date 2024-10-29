@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class VehicleController : MonoBehaviour
 {
@@ -41,7 +40,7 @@ public class VehicleController : MonoBehaviour
         Vector3 combinedInput = (transform.forward * -1) * accelerationInput;
         float DotProduct = Vector3.Dot(currentVelocity.normalized, combinedInput);
 
-        if( DotProduct < 0 )
+        if( DotProduct < 0 ) // BRAKING
         {
             // Brake
             wc_FrontLeft.brakeTorque = 1000f;
@@ -55,7 +54,7 @@ public class VehicleController : MonoBehaviour
             wc_FrontLeft.motorTorque = 0;
             wc_FrontRight.motorTorque = 0;
         }
-        else
+        else // FORWARD OR BACKWARDS
         {
             // No Brake
             wc_FrontLeft.brakeTorque = 0;
