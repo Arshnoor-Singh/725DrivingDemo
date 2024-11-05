@@ -8,8 +8,11 @@ public class AIVehicleController : MonoBehaviour
     public GameObject targetObject;
     private float distanceToTarget;
 
+    public GameObject debuggingSphere01;
+
     private float appliedMotorTorque;
     private float appliedBrakeTorque;
+
     private float appliedTurnAngle;
 
     [Header("Wheel Colliders and Rigid Body")]
@@ -19,16 +22,11 @@ public class AIVehicleController : MonoBehaviour
     public WheelCollider wc_rr;
     public Rigidbody aiCarBody;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
+        debuggingSphere01.transform.position = transform.position + (transform.forward*-4);
+
         // Calculate distance betweent the AI car and the target position
         // Keep in mind that transform.position in the line below refers to the position of this AI car
         distanceToTarget = Vector3.Distance(targetObject.transform.position, transform.position);
@@ -46,15 +44,16 @@ public class AIVehicleController : MonoBehaviour
 
             // Get the normalised direction towards the target
             Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, targetDirection);
+            float dotProduct = Vector3.Dot(transform.forward * -1, targetDirection);
 
             if(dotProduct > 0) // if the object is in front accelerate forward
             {
                 appliedMotorTorque = 700;
             }
-            else // if the object is not in front decide if we need to reverse or turn around
+            // the else below is the condition for when the dot product is less than 0
+            else 
             {
-                if(distanceToTarget > 20) // if the object is more than 20m away, do not reverse and turn around instead
+                if(distanceToTarget > 20) // if the target is more than 20m away, do not reverse and turn around instead
                 {
                     appliedMotorTorque = 700;
                 }
@@ -65,23 +64,23 @@ public class AIVehicleController : MonoBehaviour
             }
 
             // Calculate an angle between forward, targetDirection, with the Up-Axis as the pivot axis
-            float targetAngle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
+            float targetAngle = Vector3.SignedAngle(transform.forward * -1, targetDirection, Vector3.up);
 
             // Convert the angle from degrees to radians
-            float targetAngleRadians = targetAngle * Mathf.Rad2Deg;
+            float targetAngleRadians = targetAngle * Mathf.Deg2Rad;
 
             // Calculate the Sin to get a value between -1 and 1
-            appliedTurnAngle = Mathf.Sin(targetAngleRadians) * 25f;
+            appliedTurnAngle = Mathf.Sin(targetAngleRadians) * 25;
         }
     }
 
     private void FixedUpdate()
     {
-        wc_fl.motorTorque = appliedMotorTorque;
+        wc_fl.motorTorque = appliedMotorTorque * -1;
         wc_fl.brakeTorque = appliedBrakeTorque;
         wc_fl.steerAngle = appliedTurnAngle;
 
-        wc_fr.motorTorque = appliedMotorTorque;
+        wc_fr.motorTorque = appliedMotorTorque * -1;
         wc_fr.brakeTorque = appliedBrakeTorque;
         wc_fr.steerAngle = appliedTurnAngle;
     }

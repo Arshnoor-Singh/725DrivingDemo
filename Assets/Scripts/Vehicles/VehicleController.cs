@@ -81,7 +81,7 @@ public class VehicleController : MonoBehaviour
         {
             KeyPressed = "No Key Pressed";
         }
-        Debug.Log("Input = " + KeyPressed + " ||| Velocity = " + currentVelocity.normalized + " ||| Dot Product = " +  DotProduct);
+        //Debug.Log("Input = " + KeyPressed + " ||| Velocity = " + currentVelocity.normalized + " ||| Dot Product = " +  DotProduct);
         // Purely for debugging
 
 
