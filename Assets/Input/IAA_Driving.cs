@@ -53,6 +53,15 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Nitrous"",
+                    ""type"": ""Button"",
+                    ""id"": ""98bd1919-230a-4b74-be79-b0990f6c95fe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90c32444-fefb-49e7-9417-0b73ebf9e9d0"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Nitrous"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -127,6 +147,7 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
         m_Driving_Turning = m_Driving.FindAction("Turning", throwIfNotFound: true);
         m_Driving_Accelerate = m_Driving.FindAction("Accelerate", throwIfNotFound: true);
         m_Driving_Brake = m_Driving.FindAction("Brake", throwIfNotFound: true);
+        m_Driving_Nitrous = m_Driving.FindAction("Nitrous", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -191,6 +212,7 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Turning;
     private readonly InputAction m_Driving_Accelerate;
     private readonly InputAction m_Driving_Brake;
+    private readonly InputAction m_Driving_Nitrous;
     public struct DrivingActions
     {
         private @IAA_Driving m_Wrapper;
@@ -198,6 +220,7 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
         public InputAction @Turning => m_Wrapper.m_Driving_Turning;
         public InputAction @Accelerate => m_Wrapper.m_Driving_Accelerate;
         public InputAction @Brake => m_Wrapper.m_Driving_Brake;
+        public InputAction @Nitrous => m_Wrapper.m_Driving_Nitrous;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -216,6 +239,9 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Nitrous.started += instance.OnNitrous;
+            @Nitrous.performed += instance.OnNitrous;
+            @Nitrous.canceled += instance.OnNitrous;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
@@ -229,6 +255,9 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Nitrous.started -= instance.OnNitrous;
+            @Nitrous.performed -= instance.OnNitrous;
+            @Nitrous.canceled -= instance.OnNitrous;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -260,5 +289,6 @@ public partial class @IAA_Driving: IInputActionCollection2, IDisposable
         void OnTurning(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnNitrous(InputAction.CallbackContext context);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class VehicleController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class VehicleController : MonoBehaviour
     private float currentTurnInput;
     private float targetTurnInput;
     private Vector3 currentVelocity;
+    private bool isNitrousActive;
 
     public Rigidbody carBody;
     public float maxTurnAngle = 20f;
@@ -18,6 +20,20 @@ public class VehicleController : MonoBehaviour
     public WheelCollider wc_FrontRight;
     public WheelCollider wc_BackLeft;
     public WheelCollider wc_BackRight;
+
+    public void IANitrous(InputAction.CallbackContext context)
+    {
+        if(context.started == true)
+        {
+            isNitrousActive = true;
+        }
+
+        if(context.canceled == true)
+        {
+            isNitrousActive = false;
+        }
+
+    }
 
     void Start()
     {
@@ -33,6 +49,9 @@ public class VehicleController : MonoBehaviour
 
         // Old Input System code to get Turn Input
         targetTurnInput = Input.GetAxis("Horizontal");
+
+        // Old input system code to get Nitrous Input
+        isNitrousActive = Input.GetKeyDown(KeyCode.N);
     }
 
     private void FixedUpdate()
