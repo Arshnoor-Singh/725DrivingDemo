@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 37156852}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17678882, y: 0.00000008604578, z: -0.000000015455374, w: 0.9842488}
-  m_LocalPosition: {x: 9.6, y: 9.67, z: -35.47411}
+  m_LocalPosition: {x: 27.68, y: 9.67, z: -34.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -889,7 +889,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17678882, y: 0.00000008604578, z: -0.000000015455374, w: 0.9842488}
-  m_LocalPosition: {x: 9.6, y: 9.67, z: -35.47411}
+  m_LocalPosition: {x: 27.68, y: 9.67, z: -34.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3022,7 +3022,7 @@ Transform:
   m_GameObject: {fileID: 2363526806163806818}
   serializedVersion: 2
   m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
-  m_LocalPosition: {x: 9.6, y: 7.71, z: -30.19411}
+  m_LocalPosition: {x: 27.68, y: 7.71, z: -28.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3172,6 +3172,10 @@ MonoBehaviour:
   carBody: {fileID: 4308840296523660217}
   maxTurnAngle: 20
   carHorsePower: 700
+  nitrousActiveDuration: 10
+  nitrousRechargeTime: 20
+  nirousRechargeDelay: 2
+  nitrousTorque: 1500
   wc_FrontLeft: {fileID: 1495218055}
   wc_FrontRight: {fileID: 1301796901}
   wc_BackLeft: {fileID: 2103426734}

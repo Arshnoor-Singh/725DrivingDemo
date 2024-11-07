@@ -15,6 +15,16 @@ public class VehicleController : MonoBehaviour
     public float maxTurnAngle = 20f;
     public float carHorsePower = 400f;
 
+    [Header("Nitrous Variables")]
+    public float nitrousActiveDuration = 4f;
+    public float nitrousRechargeTime = 10f;
+    public float nirousRechargeDelay = 3f;
+    public float nitrousTorque = 500f;
+
+    private float currentNitrousCapacity = 1f;
+    private float currentNitrousDelay = 0;
+    private float currentNitrousTorque = 0;
+
     [Header("Wheel Colliders")]
     public WheelCollider wc_FrontLeft;
     public WheelCollider wc_FrontRight;
@@ -35,11 +45,6 @@ public class VehicleController : MonoBehaviour
 
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         currentVelocity = carBody.velocity;
@@ -51,7 +56,37 @@ public class VehicleController : MonoBehaviour
         targetTurnInput = Input.GetAxis("Horizontal");
 
         // Old input system code to get Nitrous Input
-        isNitrousActive = Input.GetKeyDown(KeyCode.N);
+        isNitrousActive = Input.GetKey(KeyCode.N);
+
+
+        // Checks if the nitrous button is pressed
+        if(isNitrousActive == true)
+        {
+            // Makes sure nitrous isn't already empty
+            if(currentNitrousCapacity > 0)
+            {
+                currentNitrousCapacity -= (Time.deltaTime/nitrousActiveDuration);
+                currentNitrousTorque = nitrousTorque;
+            }
+            // The following else executes if Nitrous was held or pressed when the Nitrous capacity was already empty
+            else
+            {
+                
+            }
+        }
+        // When the button is not pressed, start Refilling Nitrous
+        else
+        {
+            // Before refilling check to make sure you're not already full
+            if(currentNitrousCapacity < 1)
+            {
+                currentNitrousCapacity += (Time.deltaTime / nitrousRechargeTime);
+                currentNitrousTorque = 0;
+            }
+        }
+
+        Debug.Log(" Current Nitrous Capacity " + currentNitrousCapacity);
+
     }
 
     private void FixedUpdate()
@@ -82,27 +117,9 @@ public class VehicleController : MonoBehaviour
             wc_BackRight.brakeTorque = 0;
 
             // Accel 
-            wc_BackLeft.motorTorque = accelerationInput * carHorsePower * -1;
-            wc_BackRight.motorTorque = accelerationInput * carHorsePower * -1;
+            wc_BackLeft.motorTorque = ((accelerationInput * carHorsePower) + currentNitrousTorque) * -1;
+            wc_BackRight.motorTorque = ((accelerationInput * carHorsePower) + currentNitrousTorque) * -1;
         }
-
-        // Purely for Debugging
-        string KeyPressed;
-        if(accelerationInput > 0)
-        {
-            KeyPressed = "W";
-        }
-        else if(accelerationInput < 0)
-        {
-            KeyPressed = "S";
-        }
-        else
-        {
-            KeyPressed = "No Key Pressed";
-        }
-        //Debug.Log("Input = " + KeyPressed + " ||| Velocity = " + currentVelocity.normalized + " ||| Dot Product = " +  DotProduct);
-        // Purely for debugging
-
 
         // Applying Turn
         currentTurnInput = ApproachTargetValueWithIncrement(currentTurnInput, targetTurnInput, 0.07f);
